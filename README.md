@@ -2,10 +2,10 @@ Audit et Hardening Windows Security
 
 Projet de sécurité avancée des systèmes Windows - M2 T1 Bloc 3
 
-## 📋 Objectif
+## Objectif
 Auditer la configuration d'une machine Windows Server et proposer des pistes de remédiation conformes aux recommandations ANSSI et CIS Benchmarks.
 
-## 📊 Résultats
+## Résultats
 - **Score de sécurité** : 42% (FAIBLE)
 - **Problèmes détectés** : 17 issues (0 CRITIQUES, 11 MAJEURS, 6 MINEURS)
 - **Vérifications effectuées** : 50+ checks ANSSI/CIS
