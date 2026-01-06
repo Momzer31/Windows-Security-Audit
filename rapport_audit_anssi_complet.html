@@ -1,0 +1,582 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Rapport Audit Securite ANSSI Complet</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #c9d1d9; padding: 20px; }
+        header { background: linear-gradient(135deg, #0d1117 0%, #161b22 100%); border-bottom: 4px solid #da3633; padding: 30px; text-align: center; margin-bottom: 30px; border-radius: 8px; }
+        h1 { color: #da3633; font-size: 2.2em; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        h2 { color: #da3633; margin: 20px 0 15px 0; font-size: 1.4em; border-bottom: 2px solid #da3633; padding-bottom: 10px; }
+        .subtitle { color: #58a6ff; font-size: 0.9em; margin-top: 10px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        /* SCORE */
+        .score-container { background: linear-gradient(135deg, #161b22 0%, #0d1117 100%); padding: 40px; margin: 30px 0; border-radius: 8px; border: 3px solid #da3633; text-align: center; }
+        .score-circle { width: 220px; height: 220px; border-radius: 50%; border: 12px solid #da3633; display: inline-flex; align-items: center; justify-content: center; flex-direction: column; margin: 20px; }
+        .score-number { font-size: 4em; font-weight: bold; color: #da3633; }
+        .score-label { font-size: 1.3em; color: #8b949e; margin-top: 10px; }
+        .score-status { font-size: 1.6em; color: #da3633; font-weight: bold; margin-top: 15px; }
+        
+        /* STATS */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+        .stat-box { background: #161b22; padding: 25px; border-radius: 4px; text-align: center; border-left: 5px solid #da3633; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .stat-number { font-size: 2.8em; font-weight: bold; margin: 10px 0; }
+        .stat-label { color: #8b949e; font-size: 0.95em; }
+        .critical { color: #da3633; }
+        .major { color: #f85149; }
+        .minor { color: #f1c40f; }
+        
+        /* FINDINGS */
+        .finding { background: #161b22; border-left: 5px solid; margin: 15px 0; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .finding-critique { border-left-color: #da3633; }
+        .finding-majeur { border-left-color: #f85149; }
+        .finding-mineur { border-left-color: #f1c40f; }
+        .finding-header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #0d1117; border-radius: 4px 4px 0 0; flex-wrap: wrap; gap: 10px; }
+        .finding-category { background: #30363d; color: #58a6ff; padding: 3px 8px; border-radius: 3px; font-size: 0.8em; font-weight: bold; }
+        .finding-title { flex-grow: 1; font-weight: bold; font-size: 1.1em; }
+        .finding-badge { padding: 4px 12px; border-radius: 3px; font-weight: bold; margin-left: 10px; font-size: 0.85em; }
+        .badge-critical { background: #da3633; color: white; }
+        .badge-major { background: #f85149; color: white; }
+        .badge-minor { background: #f1c40f; color: #0d1117; }
+        .badge-cvss { background: #30363d; color: #da3633; }
+        .finding-content { padding: 15px; border-top: 1px solid #30363d; }
+        .finding-content p { margin: 10px 0; }
+        
+        /* SECTIONS */
+        .section { background: #161b22; padding: 20px; margin: 20px 0; border-left: 5px solid #da3633; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .section h3 { color: #58a6ff; margin: 15px 0 10px 0; font-size: 1.1em; }
+        pre { background: #0d1117; padding: 15px; border-radius: 4px; overflow-x: auto; border: 1px solid #30363d; font-size: 0.9em; white-space: pre-wrap; word-break: break-word; }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.85em; }
+        th { background: #0d1117; color: #da3633; padding: 10px; text-align: left; border-bottom: 2px solid #da3633; }
+        td { padding: 8px; border-bottom: 1px solid #30363d; }
+        tr:hover { background: #1c2128; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>RAPPORT AUDIT SECURITE ANSSI COMPLET</h1>
+        <div class="subtitle">Audit Windows conforme aux recommandations ANSSI, CIS et Microsoft Security Baseline</div>
+        <div class="subtitle">Genere: 06/01/2026 23:06:29 | Machine: === INFORMATIONS SYSTEME ===</div>
+    </header>
+    
+    <div class="container">
+        
+        <!-- SCORE GLOBAL -->
+        <div class="score-container">
+            <h2 style="color: #da3633; font-size: 1.8em; margin-bottom: 20px; border: none; padding-bottom: 0;">SCORE DE SECURITE GLOBAL</h2>
+            <div class="score-circle">
+                <div class="score-number">42%</div>
+                <div class="score-label">75 / 179 points</div>
+            </div>
+            <div class="score-status">Niveau: FAIBLE</div>
+        </div>
+        
+        <!-- STATS FINDINGS -->
+        <div class="grid">
+            <div class="stat-box">
+                <div class="stat-number critical">0</div>
+                <div class="stat-label">Findings CRITIQUES</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number major">11</div>
+                <div class="stat-label">Findings MAJEURS</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number minor">6</div>
+                <div class="stat-label">Findings MINEURS</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" style="color: #58a6ff;">17</div>
+                <div class="stat-label">Total Findings</div>
+            </div>
+        </div>
+
+        <!-- FINDINGS & REMEDIATIONS -->
+        <div class="section">
+            <h2>Findings Securite et Remediations ANSSI</h2>
+                    <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Authentification]</span>
+                <span class="finding-title">LSASS Protection desactivee</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 8.5</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> RunAsPPL non active. Risque d'extraction de credentials via mimikatz.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>reg add &apos;HKLM\SYSTEM\CurrentControlSet\Control\Lsa&apos; /v RunAsPPL /t REG_DWORD /d 1 /f
+REDEMARRAGE REQUIS</pre>
+            </div>
+        </div>        <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Securite]</span>
+                <span class="finding-title">Ports sensibles exposes</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 8.5</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> SMB, WinRM exposes. Risque de pivots lateraux et attaques.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>New-NetFirewallRule -DisplayName &apos;Block Dangerous Ports&apos; -Direction Inbound -Protocol TCP -LocalPort 139,445,5985,5986 -Action Block -Profile Public</pre>
+            </div>
+        </div>        <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Securite]</span>
+                <span class="finding-title">BitLocker non active</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 8</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Disque non chiffre. Donnees sensibles accessibles sans protection.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>Enable-BitLocker -MountPoint C: -EncryptionMethod Aes256 -UsedSpaceOnly</pre>
+            </div>
+        </div>        <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Securite]</span>
+                <span class="finding-title">Secure Boot desactive ou non supporte</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 7.5</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Risque de rootkit au demarrage sans Secure Boot.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre># ACTION MANUELLE: Redemarrer sur UEFI/BIOS et activer Secure Boot</pre>
+            </div>
+        </div>        <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Comptes]</span>
+                <span class="finding-title">LAPS non configure</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 7.5</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Local Admin Password Solution absent. Mots de passe admin non geres.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre># Installer LAPS depuis Microsoft
+# Configurer via GPO ou registre
+Set-ItemProperty &apos;HKLM:\Software\Policies\Microsoft Services\AdmPwd&apos; -Name AdmPwdEnabled -Value 1</pre>
+            </div>
+        </div>        <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Authentification]</span>
+                <span class="finding-title">WDigest stocke les mots de passe en clair</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 7</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> WDigest peut extraire les mots de passe en memoire.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>Set-ItemProperty &apos;HKLM:\System\CurrentControlSet\Control\SecurityProviders\WDigest&apos; -Name UseLogonCredential -Value 0</pre>
+            </div>
+        </div>        <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Reseau]</span>
+                <span class="finding-title">USB Autorun actif</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 6.5</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Risque d'infection par cles USB compromises.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>Set-ItemProperty &apos;HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer&apos; -Name NoDriveTypeAutoRun -Value 255</pre>
+            </div>
+        </div>        <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Reseau]</span>
+                <span class="finding-title">Signature SMB non requise</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 6.5</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Communications SMB non signees. Risque d'interception et modification.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>Set-SmbServerConfiguration -RequireSecuritySignature $true -Force</pre>
+            </div>
+        </div>        <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Comptes]</span>
+                <span class="finding-title">RestrictAnonymous non configure</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 6.5</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Acces anonyme trop permissif au registre et partages.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>Set-ItemProperty &apos;HKLM:\SYSTEM\CurrentControlSet\Control\Lsa&apos; -Name RestrictAnonymous -Value 1</pre>
+            </div>
+        </div>        <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Reseau]</span>
+                <span class="finding-title">LLMNR actif (spoofing DNS possible)</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 6</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> LLMNR non desactif. Risque de spoofing et MITM.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>Set-ItemProperty &apos;HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient&apos; -Name EnableMulticast -Value 0</pre>
+            </div>
+        </div>        <div class="finding finding-majeur">
+            <div class="finding-header">
+                <span class="finding-category">[Comptes]</span>
+                <span class="finding-title">UAC ConsentPromptBehaviorAdmin faible</span>
+                <span class="finding-badge badge-major">MAJEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 6</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Niveau de notification UAC insuffisant pour les administrateurs.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>Set-ItemProperty &apos;HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System&apos; -Name ConsentPromptBehaviorAdmin -Value 1</pre>
+            </div>
+        </div>        <div class="finding finding-mineur">
+            <div class="finding-header">
+                <span class="finding-category">[Authentification]</span>
+                <span class="finding-title">Credential Guard non active</span>
+                <span class="finding-badge badge-minor">MINEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 4.5</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Protection avancee des credentials non activee.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre># Hypervisor-Protected Code Integrity requis
+Reg add &apos;HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity&apos; /v Enabled /t REG_DWORD /d 1 /f</pre>
+            </div>
+        </div>        <div class="finding finding-mineur">
+            <div class="finding-header">
+                <span class="finding-category">[Reseau]</span>
+                <span class="finding-title">RDP Restricted Admin desactive</span>
+                <span class="finding-badge badge-minor">MINEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 4</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Mode Restricted Admin non active. Risque de Pass-The-Hash via RDP.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>Set-ItemProperty &apos;HKLM:\System\CurrentControlSet\Control\Lsa&apos; -Name DisableRestrictedAdmin -Value 0</pre>
+            </div>
+        </div>        <div class="finding finding-mineur">
+            <div class="finding-header">
+                <span class="finding-category">[Journalisation]</span>
+                <span class="finding-title">Sysmon non installe</span>
+                <span class="finding-badge badge-minor">MINEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 3.5</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Journalisation avancee absente. Visibilite limitee.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre># Telecharger Sysmon depuis Microsoft
+Sysmon64.exe -i -n -l</pre>
+            </div>
+        </div>        <div class="finding finding-mineur">
+            <div class="finding-header">
+                <span class="finding-category">[Reseau]</span>
+                <span class="finding-title">NetBIOS Name Release trop permissif</span>
+                <span class="finding-badge badge-minor">MINEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 3</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Risque de spoofing NetBIOS.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>Set-ItemProperty &apos;HKLM:\System\CurrentControlSet\Services\Netbt\Parameters&apos; -Name NoNameReleaseOnDemand -Value 1</pre>
+            </div>
+        </div>        <div class="finding finding-mineur">
+            <div class="finding-header">
+                <span class="finding-category">[Reseau]</span>
+                <span class="finding-title">IPv6 actif (si non utilise)</span>
+                <span class="finding-badge badge-minor">MINEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 2.5</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> IPv6 peut creer des vecteurs d'attaque inutiles si non utilise.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre>Set-ItemProperty &apos;HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters&apos; -Name DisabledComponents -Value 0xFF</pre>
+            </div>
+        </div>        <div class="finding finding-mineur">
+            <div class="finding-header">
+                <span class="finding-category">[Authentification]</span>
+                <span class="finding-title">Windows Hello/Passport non configure</span>
+                <span class="finding-badge badge-minor">MINEUR</span>
+                <span class="finding-badge badge-cvss">CVSS 2</span>
+            </div>
+            <div class="finding-content">
+                <p><strong>Description:</strong> Authentification biometrique ou PIN non active.</p>
+                <p><strong>Remediation:</strong></p>
+                <pre># Windows Hello requiert une TPM 2.0 ou capteur biometrique</pre>
+            </div>
+        </div>
+        </div>
+
+        <!-- SYSTEME -->
+        <div class="section">
+            <h2>Systeme</h2>
+            <h3>Informations OS</h3>
+            <pre>=== INFORMATIONS SYSTEME ===
+Nom: Microsoft Windows Server 2019 Standard
+Version: 10.0.17763
+Build: 17763
+Architecture: 64-bit
+Installation: 03/01/2025 10:09:33
+Dernier boot: 01/06/2026 22:40:56</pre>
+            <h3>Uptime Systeme</h3>
+            <pre>Uptime: 0 jours, 0 heures</pre>
+            <h3>BitLocker Status</h3>
+            <pre>=== BITLOCKER STATUS ===</pre>
+            <h3>Derniers Hotfixes</h3>
+            <table> <colgroup><col/><col/><col/></colgroup> <tr><th>HotFixID</th><th>Description</th><th>InstalledOn</th></tr> <tr><td>KB5004335</td><td>Update</td><td>05/08/2021 00:00:00</td></tr> <tr><td>KB5005112</td><td>Security Update</td><td>05/08/2021 00:00:00</td></tr> <tr><td>KB5005030</td><td>Security Update</td><td>05/08/2021 00:00:00</td></tr> </table>
+        </div>
+
+        <!-- COMPTES -->
+        <div class="section">
+            <h2>Comptes et Identites</h2>
+            <h3>Comptes Privilegies</h3>
+            <pre>=== VERIFICATION COMPTES PRIVILEGIES ===
+Administrateur actif: True
+Guest actif: False</pre>
+            <h3>Utilisateurs Locaux</h3>
+            <table> <colgroup><col/><col/><col/><col/><col/><col/></colgroup> <tr><th>Name</th><th>Enabled</th><th>PasswordRequired</th><th>PasswordExpires</th><th>PasswordLastSet</th><th>LastLogon</th></tr> <tr><td>Administrator</td><td>True</td><td>True</td><td></td><td>01/03/2025 10:09:31</td><td>06/01/2026 23:01:36</td></tr> <tr><td>DefaultAccount</td><td>False</td><td>False</td><td></td><td></td><td></td></tr> <tr><td>Guest</td><td>False</td><td>False</td><td></td><td></td><td></td></tr> <tr><td>michel</td><td>True</td><td>True</td><td>12/04/2025 13:17:44</td><td>01/03/2025 12:17:44</td><td></td></tr> <tr><td>sshd</td><td>True</td><td>True</td><td></td><td>06/01/2026 22:35:36</td><td></td></tr> <tr><td>WDAGUtilityAccount</td><td>False</td><td>True</td><td>12/04/2025 11:03:07</td><td>01/03/2025 10:03:07</td><td></td></tr> </table>
+            <h3>Groupe Administrateurs</h3>
+            <table> <colgroup><col/><col/></colgroup> <tr><th>Name</th><th>ObjectClass</th></tr> <tr><td>WIN-RNGUKIGIR06\Administrator</td><td>User</td></tr> <tr><td>WIN-RNGUKIGIR06\michel</td><td>User</td></tr> </table>
+            <h3>Configuration UAC</h3>
+            <pre>=== UAC CONFIGURATION ===
+EnableLUA: 1
+ConsentPromptBehaviorAdmin: 5
+PromptOnSecureDesktop: 1
+FilterAdministratorToken:</pre>
+            <h3>Politique de Mots de Passe</h3>
+            <pre>Force user logoff how long after time expires?:       Never
+Minimum password age (days):                          0
+Maximum password age (days):                          42
+Minimum password length:                              0
+Length of password history maintained:                None
+Lockout threshold:                                    Never
+Lockout duration (minutes):                           30
+Lockout observation window (minutes):                 30
+Computer role:                                        SERVER
+The command completed successfully.</pre>
+        </div>
+
+        <!-- AUTHENTIFICATION -->
+        <div class="section">
+            <h2>Authentification</h2>
+            <h3>Configuration NTLM</h3>
+            <pre>=== NTLM CONFIGURATION ===
+LMCompatibilityLevel: 
+NoLMHash: 1</pre>
+            <h3>Securite Base SAM</h3>
+            <pre>=== SECURITE BASE SAM ===
+NoLMHash: 1
+RestrictAnonymous: 0
+EveryoneIncludesAnonymous: 0
+ForceGuest: 0</pre>
+            <h3>Parametres LSA Avances</h3>
+            <pre>=== PARAMETRES LSA AVANCES ===
+RunAsPPL: 
+DisableRestrictedAdmin: 
+NullSessionPipes:</pre>
+            <h3>WDigest Credentials</h3>
+            <pre>WDigest UseLogonCredential:</pre>
+            <h3>LAPS Configuration</h3>
+            <pre>LAPS: Non configure</pre>
+            <h3>Credential Guard</h3>
+            <pre>Credential Guard: 0</pre>
+            <h3>Authentification Biometrique</h3>
+            <pre>=== AUTHENTIFICATION BIOMETRIQUE ===
+PassportForWork Enabled: 
+UsePassportForWork:</pre>
+        </div>
+
+        <!-- RESEAU -->
+        <div class="section">
+            <h2>Reseau et Services</h2>
+            <h3>Profils Firewall</h3>
+            <table> <colgroup><col/><col/><col/></colgroup> <tr><th>Name</th><th>Enabled</th><th>DefaultInboundAction</th></tr> <tr><td>Domain</td><td>True</td><td>NotConfigured</td></tr> <tr><td>Private</td><td>True</td><td>NotConfigured</td></tr> <tr><td>Public</td><td>True</td><td>NotConfigured</td></tr> </table>
+            <h3>Configuration SMB</h3>
+            <pre>=== SMB CONFIGURATION ===
+EnableSMB1Protocol: False
+EncryptData: False
+RequireSecuritySignature: False
+EnableSecuritySignature: False</pre>
+            <h3>Protocoles Multicast</h3>
+            <pre>=== PROTOCOLES MULTICAST ===
+LLMNR Enabled: 
+NetBIOS NoNameReleaseOnDemand:</pre>
+            <h3>Statut IPv6</h3>
+            <pre>IPv6 DisabledComponents:</pre>
+            <h3>Configuration RDP</h3>
+            <pre>=== RDP CONFIGURATION ===
+fDenyTSConnections: 1
+SecurityLayer: 2
+UserAuthentication: 1
+MinEncryptionLevel: 2</pre>
+            <h3>RDP Restricted Admin</h3>
+            <pre>RDP DisableRestrictedAdmin:</pre>
+            <h3>Statut WinRM</h3>
+            <pre>WinRM: Running - Automatic</pre>
+            <h3>Autorun USB</h3>
+            <pre>USB AutoRun NoDriveTypeAutoRun:</pre>
+            <h3>Ports en Ecoute</h3>
+            <table> <colgroup><col/><col/><col/></colgroup> <tr><th>LocalAddress</th><th>LocalPort</th><th>OwningProcess</th></tr> <tr><td>::</td><td>49675</td><td>660</td></tr> <tr><td>::</td><td>49669</td><td>652</td></tr> <tr><td>::</td><td>49668</td><td>2552</td></tr> <tr><td>::</td><td>49666</td><td>1620</td></tr> <tr><td>::</td><td>49665</td><td>1164</td></tr> <tr><td>::</td><td>49664</td><td>508</td></tr> <tr><td>::</td><td>47001</td><td>4</td></tr> <tr><td>::</td><td>5985</td><td>4</td></tr> <tr><td>::</td><td>5357</td><td>4</td></tr> <tr><td>::</td><td>445</td><td>4</td></tr> <tr><td>::</td><td>135</td><td>928</td></tr> <tr><td>::</td><td>22</td><td>2632</td></tr> <tr><td>0.0.0.0</td><td>49675</td><td>660</td></tr> <tr><td>0.0.0.0</td><td>49669</td><td>652</td></tr> <tr><td>0.0.0.0</td><td>49668</td><td>2552</td></tr> <tr><td>0.0.0.0</td><td>49666</td><td>1620</td></tr> <tr><td>0.0.0.0</td><td>49665</td><td>1164</td></tr> <tr><td>0.0.0.0</td><td>49664</td><td>508</td></tr> <tr><td>10.0.2.15</td><td>139</td><td>4</td></tr> <tr><td>0.0.0.0</td><td>135</td><td>928</td></tr> <tr><td>0.0.0.0</td><td>22</td><td>2632</td></tr> </table>
+        </div>
+
+        <!-- SECURITE OS -->
+        <div class="section">
+            <h2>Securite OS</h2>
+            <h3>LSASS Protection</h3>
+            <pre>=== LSASS PROTECTION ===
+RunAsPPL:</pre>
+            <h3>Windows Defender</h3>
+            <pre>=== WINDOWS DEFENDER ===
+DisableRealtimeMonitoring: False
+DisableBehaviorMonitoring: False
+DisableIOAVProtection: False</pre>
+            <h3>Secure Boot</h3>
+            <pre>Secure Boot:</pre>
+        </div>
+
+        <!-- JOURNALISATION -->
+        <div class="section">
+            <h2>Journalisation et Audit</h2>
+            <h3>Audit Policy</h3>
+            <pre>System audit policy
+
+Category/Subcategory                      Setting
+System
+  Security System Extension               No Auditing
+
+  System Integrity                        Success and Failure
+
+  IPsec Driver                            No Auditing
+
+  Other System Events                     Success and Failure
+
+  Security State Change                   Success
+
+Logon/Logoff
+  Logon                                   Success and Failure
+
+  Logoff                                  Success
+
+  Account Lockout                         Success
+
+  IPsec Main Mode                         No Auditing
+
+  IPsec Quick Mode                        No Auditing
+
+  IPsec Extended Mode                     No Auditing
+
+  Special Logon                           Success
+
+  Other Logon/Logoff Events               No Auditing
+
+  Network Policy Server                   Success and Failure
+
+  User / Device Claims                    No Auditing
+
+  Group Membership                        No Auditing
+
+Object Access
+  File System                             No Auditing
+
+  Registry                                No Auditing
+
+  Kernel Object                           No Auditing
+
+  SAM                                     No Auditing
+
+  Certification Services                  No Auditing
+
+  Application Generated                   No Auditing
+
+  Handle Manipulation                     No Auditing
+
+  File Share                              No Auditing
+
+  Filtering Platform Packet Drop          No Auditing
+
+  Filtering Platform Connection           No Auditing
+
+  Other Object Access Events              No Auditing
+
+  Detailed File Share                     No Auditing
+
+  Removable Storage                       No Auditing
+
+  Central Policy Staging                  No Auditing
+
+Privilege Use
+  Non Sensitive Privilege Use             No Auditing
+
+  Other Privilege Use Events              No Auditing
+
+  Sensitive Privilege Use                 No Auditing
+
+Detailed Tracking
+  Process Creation                        No Auditing
+
+  Process Termination                     No Auditing
+
+  DPAPI Activity                          No Auditing
+
+  RPC Events                              No Auditing
+
+  Plug and Play Events                    No Auditing
+
+  Token Right Adjusted Events             No Auditing
+
+Policy Change
+  Audit Policy Change                     Success
+
+  Authentication Policy Change            Success
+
+  Authorization Policy Change             No Auditing
+
+  MPSSVC Rule-Level Policy Change         No Auditing
+
+  Filtering Platform Policy Change        No Auditing
+
+  Other Policy Change Events              No Auditing
+
+Account Management
+  Computer Account Management             Success
+
+  Security Group Management               Success
+
+  Distribution Group Management           No Auditing
+
+  Application Group Management            No Auditing
+
+  Other Account Management Events         No Auditing
+
+  User Account Management                 Success
+
+DS Access
+  Directory Service Access                Success
+
+  Directory Service Changes               No Auditing
+
+  Directory Service Replication           No Auditing
+
+  Detailed Directory Service Replication  No Auditing
+
+Account Logon
+  Kerberos Service Ticket Operations      Success
+
+  Other Account Logon Events              No Auditing
+
+  Kerberos Authentication Service         Success
+
+  Credential Validation                   Success</pre>
+            <h3>Configuration WSUS</h3>
+            <pre>=== CONFIGURATION WSUS ===
+WUServer: 
+UseWUServer:</pre>
+            <h3>Sysmon</h3>
+            <pre>Sysmon: Non installe</pre>
+        </div>
+
+    </div>
+</body>
+</html>
